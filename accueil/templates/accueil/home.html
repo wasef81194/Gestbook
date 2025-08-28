@@ -1,31 +1,39 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Guestbook - Accueil</title>
+    <link rel="stylesheet" href="{% static 'accueil/style.css' %}">
 </head>
 <body>
     <h1>Guestbook</h1>
-    <form method="post">
+    <form method="post" class="formGuestBook">
         {% csrf_token %}
-        <label for="nom">Ton nom :</label>
-        <input type="text" id="nom" name="nom" required>
-        <label for="message">Ton Message :</label>
-        <input type="text" id="message" name="message" required>
-        <button type="submit">Envoyer</button>
+        <div>
+            <label for="nom">Ton nom :</label>
+            <input type="text" id="nom" name="nom" required>
+        </div>
+        <div>
+            <label for="message">Ton Message :</label>
+            <textarea maxlength="1500" type="text" id="message" name="message" required></textarea>
+        </div>
+       <button type="submit">Envoyer</button>
     </form>
 
     <h2>Messages des visiteurs :</h2>
-    <ul>
+    <div class="messages">
         {% for msg in messages %}
-            <li>
-                <strong>{{ msg.nom }}</strong> a écrit le {{ msg.date|date:"d/m/Y H:i" }} :<br>
+            <div class="message">
+                    <div class="date">{{ msg.date|date:"d/m/Y H:i" }}</div>
+                    <div class="nom">{{ msg.nom }}</div> 
+                    
                 {{ msg.message }}
-            </li>
+            </div>
         {% empty %}
-            <li>Aucun message pour le moment.</li>
+            Aucun message pour le moment.
         {% endfor %}
-    </ul>
+    </div>
 
 </body>
 </html>
